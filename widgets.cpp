@@ -19,8 +19,9 @@ void GroupBox::setTitle(QString title)
     QGroupBox::setTitle(title);
 }
 
-LineEdit::LineEdit(QWidget *parent)
-    : QLineEdit(parent){
+LineEdit::LineEdit(QWidget *parent) :
+    QLineEdit(parent)
+{
     cmdButton = new QToolButton(this);
     QPixmap pixmap(":/key.png");
     cmdButton->setIcon(QIcon(pixmap));
@@ -41,7 +42,7 @@ void LineEdit::resizeEvent(QResizeEvent *)
 
 void LineEdit::input()
 {
-    InputDialog d(this->text(),this);
+    InputDialog d(this->text(),this->validator());
     connect(&d,SIGNAL(editFinished(QString)),this,SLOT(setText(QString)));
     d.exec();
 }

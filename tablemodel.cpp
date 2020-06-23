@@ -17,6 +17,8 @@ QVariant TableModel::data(const QModelIndex &index, int role) const
     if (role==Qt::DisplayRole){
         if (val.type()==QVariant::Double){
             return val.isNull() ? QVariant() : QLocale().toString(val.toDouble(),'f',1);
+        } else if (val.type()==QVariant::Date){
+            return val.isNull() ? QVariant() : val.toDate().toString("dd.MM.yy");
         } else {
             return val;
         }

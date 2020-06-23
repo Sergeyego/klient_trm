@@ -1,16 +1,16 @@
 #include "inputdialog.h"
 #include "ui_inputdialog.h"
 
-InputDialog::InputDialog(QString txt, QWidget *parent) :
+InputDialog::InputDialog(QString txt, const QValidator *validator, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::InputDialog)
 {
     ui->setupUi(this);
     signalMapper = new QSignalMapper(this);
     ui->lineEdit->setText(txt);
-    QDoubleValidator *validator = new QDoubleValidator(this);
-    validator->setLocale(QLocale::English);
-    ui->lineEdit->setValidator(validator);
+    if (validator){
+        ui->lineEdit->setValidator(validator);
+    }
     keyMap[Qt::Key_1]= new BtnKey(ui->pushButton1,QString("1"),this);
     keyMap[Qt::Key_2]= new BtnKey(ui->pushButton2,QString("2"),this);
     keyMap[Qt::Key_3]= new BtnKey(ui->pushButton3,QString("3"),this);

@@ -46,9 +46,10 @@ Prog::Prog(Oven *o, int ival, bool is_manual, QWidget *parent) :
     ui->tableViewPart->setColumnWidth(3,30);
     ui->tableViewPart->setColumnWidth(4,65);
 
-    ui->lineEditT->setValidator(new QDoubleValidator(this));
-    ui->lineEditW->setValidator(new QDoubleValidator(this));
-    ui->lineEditKg->setValidator(new QDoubleValidator(this));
+    QRegExpValidator *validator = new QRegExpValidator(QRegExp("[+-]?\\d*\\.?\\d+"),this);
+    ui->lineEditT->setValidator(validator);
+    ui->lineEditW->setValidator(validator);
+    ui->lineEditKg->setValidator(validator);
     ui->lineEditT->setText("25");
     ui->lineEditW->setText("8");
     updatePart();
@@ -353,8 +354,8 @@ double Prog::getEndTime()
 
 void Prog::progFinish()
 {
-    sqlWriteStop();
     stopProg();
+    sqlWriteStop();
     QMessageBox* pmbx = new QMessageBox(oven->getName()+" "+ui->comboBoxMark->currentText(),
                                         QDateTime::currentDateTime().toString("dd.MM.yy hh:mm:ss")+": "+tr("Прокалка ")+ui->comboBoxMark->currentText()+tr(" завершена"),
                                         QMessageBox::Information, QMessageBox::Ok, QMessageBox::NoButton, QMessageBox::NoButton);

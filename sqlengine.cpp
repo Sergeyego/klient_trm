@@ -28,6 +28,7 @@ bool SqlEngine::executeQuery(QString query, sqlParams params, TableModel *result
 
     int randInt;
     QString randomName;
+    QString errstr;
     for(int i=0; i<5; i++){
         randInt = qrand()%('Z'-'A'+1)+'A';
         randomName.append(randInt);
@@ -61,11 +62,20 @@ bool SqlEngine::executeQuery(QString query, sqlParams params, TableModel *result
                 }
             } else if (!ok) {
                 if (result) result->setRowCount(0);
-                QMessageBox::critical(NULL,"Error",qu.lastError().text(),QMessageBox::Ok);
+                errstr=qu.lastError().text();
             }
         } else {
             if (result) result->setRowCount(0);
-            QMessageBox::critical(NULL,"Error",db.lastError().text(),QMessageBox::Ok);
+            errstr=db.lastError().text();
+        }
+        if (!errstr.isEmpty()){
+            QMessageBox* pmbx = new QMessageBox(QString::fromUtf8("Ошибка"),
+                                                QDateTime::currentDateTime().toString("dd.MM.yy hh:mm:ss")+": "+errstr,
+                                                QMessageBox::Critical, QMessageBox::Ok, QMessageBox::NoButton, QMessageBox::NoButton);
+            pmbx->setModal(false);
+            pmbx->setWindowFlags(Qt::WindowStaysOnTopHint);
+            pmbx->show();
+            connect(pmbx,SIGNAL(accepted()),pmbx,SLOT(deleteLater()));
         }
         if (db.isOpen()) db.close();
     }

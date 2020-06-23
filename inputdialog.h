@@ -29,7 +29,7 @@ class InputDialog : public QDialog
     Q_OBJECT
     
 public:
-    explicit InputDialog(QString txt, QWidget *parent = 0);
+    explicit InputDialog(QString txt, const QValidator *validator=NULL, QWidget *parent = 0);
     ~InputDialog();
     
 private:
