@@ -354,8 +354,8 @@ double Prog::getEndTime()
 
 void Prog::progFinish()
 {
-    stopProg();
     sqlWriteStop();
+    stopProg();
     QMessageBox* pmbx = new QMessageBox(oven->getName()+" "+ui->comboBoxMark->currentText(),
                                         QDateTime::currentDateTime().toString("dd.MM.yy hh:mm:ss")+": "+tr("Прокалка ")+ui->comboBoxMark->currentText()+tr(" завершена"),
                                         QMessageBox::Information, QMessageBox::Ok, QMessageBox::NoButton, QMessageBox::NoButton);
